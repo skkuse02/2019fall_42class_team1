@@ -11,7 +11,7 @@ Repository for team project by Team 1 (SWE3002-42)
 ## Documents
 
 ### Proposal
-[Project proposal (PowerPoint)](docs/)
+[Project proposal (PowerPoint)](docs/Proposal.pptx)
 
 ### Requirements
 [Requirement specification document (Word)](docs/)
