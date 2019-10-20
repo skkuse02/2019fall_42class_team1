@@ -6,7 +6,7 @@ Repository for team project by Team 1 (SWE3002-42)
 - 이상우 [@](https://github.com/)
 - 김현우 [@gatherheart](https://github.com/gatherheart)
 - 김동환 [@](https://github.com/)
-- 김무성 [@](https://github.com/)
+- 김무성 [@ScienceEater](https://github.com/scienceeater)
 
 ## Documents
 
