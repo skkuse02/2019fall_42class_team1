@@ -3,7 +3,7 @@ Repository for team project by Team 1 (SWE3002-42)
 
 ## Team Members
 - 이재원 [@jwl317](https://github.com/jwl317)
-- 이상우 [@](https://github.com/)
+- 이상우 [@skkuLXY](https://github.com/skkuLXY)
 - 김현우 [@gatherheart](https://github.com/gatherheart)
 - 김동환 [@](https://github.com/)
 - 김무성 [@ScienceEater](https://github.com/ScienceEater)
