@@ -14,10 +14,10 @@ Repository for team project by Team 1 (SWE3002-42)
 [Project proposal (PowerPoint)](docs/Proposal.pptx)
 
 ### Requirements
-[Requirement specification document (Word)](docs/)
+[Requirement specification document (Pdf)](docs/)
 
 ### System Design
-[System design document (Word)](docs/)
+[System design document (Pdf)](docs/)
 
 ## Sources
 
