@@ -17,7 +17,7 @@ Repository for team project by Team 1 (SWE3002-42)
 [Requirement specification document (PDF)](docs/requirement.pdf)
 
 ### System Design
-[System design document (PDF)](docs/)
+[System design document (PDF)](docs/Design_Specification.pdf)
 
 ## Sources
 
