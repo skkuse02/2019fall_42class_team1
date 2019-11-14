@@ -1,8 +1,7 @@
 # 2019fall_42class_team1
 Repository for team project by Team 1 (SWE3002-42)
-## Subject
-Second Hand Market with Blockchain System  
-PoS is applied for validating each transaction
+## SUBJECT
+Second Hand Market with Blockchain System
 ![Image of Used2Block](https://github.com/skkuse02/2019fall_42class_team1/blob/master/docs/images/logo.png)
 
 ## Team Members
