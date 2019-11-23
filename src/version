@@ -1,0 +1,14 @@
+nodejs 8.10.0
+sudo apt-get install build-essential checkinstall libssl-dev
+
+npm 5.4.2
+
+MongoDB shell version v3.6.3
+update react-router-dom
+react-router 
+create-react-app
+history/createMemoryHistory
+
+Node (8.11.1)
+NPM (5.8.0)
+MongoDB (3.6.3)
