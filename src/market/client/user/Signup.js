@@ -53,7 +53,9 @@ class Signup extends Component {
     const user = {
       name: this.state.name || undefined,
       email: this.state.email || undefined,
-      password: this.state.password || undefined
+      password: this.state.password || undefined,
+      address: this.state.address || undefined,
+      phone: this.state.phone || undefined
     }
     create(user).then((data) => {
       if (data.error) {
@@ -74,6 +76,8 @@ class Signup extends Component {
           </Typography>
           <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/><br/>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal"/><br/>
+          <TextField id="address" label="Address" className={classes.textField} value={this.state.address} onChange={this.handleChange('address')} margin="normal"/><br/>
+          <TextField id="phone" label="Phone" className={classes.textField} value={this.state.phone} onChange={this.handleChange('phone')} margin="normal"/><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
           <br/> {
             this.state.error && (<Typography component="p" color="error">

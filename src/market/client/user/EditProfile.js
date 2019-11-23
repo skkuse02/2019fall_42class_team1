@@ -49,6 +49,8 @@ class EditProfile extends Component {
       name: '',
       email: '',
       password: '',
+      address: '',
+      phone: '',
       seller: false,
       redirectToProfile: false,
       error: ''
@@ -64,7 +66,8 @@ class EditProfile extends Component {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        this.setState({name: data.name, email: data.email, seller: data.seller})
+        this.setState({name: data.name, email: data.email, seller: data.seller,
+          address: data.address, phone: data.phone})
       }
     })
   }
@@ -74,6 +77,8 @@ class EditProfile extends Component {
       name: this.state.name || undefined,
       email: this.state.email || undefined,
       password: this.state.password || undefined,
+      address: this.state.address || undefined,
+      phone: this.state.phone || undefined,
       seller: this.state.seller
     }
     update({
@@ -110,6 +115,8 @@ class EditProfile extends Component {
           <TextField id="name" label="Name" className={classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/><br/>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={this.state.email} onChange={this.handleChange('email')} margin="normal"/><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+          <TextField id="address" label="Address" className={classes.textField} value={this.state.address} onChange={this.handleChange('address')} margin="normal"/><br/>
+          <TextField id="phone" label="Phone" className={classes.textField} value={this.state.phone} onChange={this.handleChange('phone')} margin="normal"/><br/>
           <Typography type="subheading" component="h4" className={classes.subheading}>
             Seller Account
           </Typography>
