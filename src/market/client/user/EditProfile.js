@@ -52,6 +52,7 @@ class EditProfile extends Component {
       address: '',
       phone: '',
       seller: false,
+      validator: false,
       redirectToProfile: false,
       error: ''
     }
@@ -67,7 +68,7 @@ class EditProfile extends Component {
         this.setState({error: data.error})
       } else {
         this.setState({name: data.name, email: data.email, seller: data.seller,
-          address: data.address, phone: data.phone})
+          address: data.address, phone: data.phone, validator: data.validator})
       }
     })
   }
@@ -79,7 +80,8 @@ class EditProfile extends Component {
       password: this.state.password || undefined,
       address: this.state.address || undefined,
       phone: this.state.phone || undefined,
-      seller: this.state.seller
+      seller: this.state.seller,
+      validator: this.state.validator
     }
     update({
       userId: this.match.params.userId
@@ -98,8 +100,11 @@ class EditProfile extends Component {
   handleChange = name => event => {
     this.setState({[name]: event.target.value})
   }
-  handleCheck = (event, checked) => {
+  handleCheckSeller = (event, checked) => {
     this.setState({'seller': checked})
+  }
+  handleCheckValidator = (event, checked) => {
+    this.setState({'validator': checked})
   }
   render() {
     const {classes} = this.props
@@ -124,12 +129,27 @@ class EditProfile extends Component {
             control={
               <Switch classes={{
                                 checked: classes.checked,
-                                bar: classes.bar,
+                                bar: classes.bar
                               }}
                       checked={this.state.seller}
-                      onChange={this.handleCheck}
+                      onChange={this.handleCheckSeller}
               />}
             label={this.state.seller? 'Active' : 'Inactive'}
+          />
+          
+          <Typography type="subheading" component="h4" className={classes.subheading}>
+            Validator Account
+          </Typography>
+          <FormControlLabel
+            control={
+              <Switch classes={{
+                                checked: classes.checked,
+                                bar: classes.bar
+                              }}
+                      checked={this.state.validator}
+                      onChange={this.handleCheckValidator}
+              />}
+            label={this.state.validator? 'Active' : 'Inactive'}
           />
           <br/> {
             this.state.error && (<Typography component="p" color="error">

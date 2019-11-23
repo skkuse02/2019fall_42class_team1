@@ -1,4 +1,4 @@
-const create = (params, credentials, order, token) => {
+const create = (params, credentials, order) => {
   return fetch('/api/orders/'+params.userId, {
       method: 'POST',
       headers: {
@@ -6,7 +6,7 @@ const create = (params, credentials, order, token) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify({order: order, token:token})
+      body: JSON.stringify({order: order})
     })
     .then((response) => {
       return response.json()

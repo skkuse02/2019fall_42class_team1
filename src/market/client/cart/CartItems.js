@@ -103,10 +103,10 @@ class CartItems extends Component {
     if(event.target.value == 0){
       cartItems[index].quantity = 1
     }else{
-      cartItems[index].quantity = event.target.value
+      cartItems[index].quantity = (event.target.value > cartItems[index]['product']['quantity'] ? 1 : event.target.value)
     }
     this.setState({cartItems: cartItems})
-    cart.updateCart(index, event.target.value)
+    cart.updateCart(index, cartItems[index].quantity)
   }
 
   getTotal(){

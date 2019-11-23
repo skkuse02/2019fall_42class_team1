@@ -83,7 +83,7 @@ const remove = (req, res, next) => {
 }
 
 const isSeller = (req, res, next) => {
-  const isSeller = req.profile && req.profile.seller
+  const isSeller_ = req.profile && req.profile.seller
   if (!isSeller) {
     return res.status('403').json({
       error: "User is not a seller"
@@ -91,7 +91,15 @@ const isSeller = (req, res, next) => {
   }
   next()
 }
-
+const isVaildator = (req, res, next) => {
+  const isValidator_ = req.profile && req.profile.validator
+  if (!isValidator_) {
+    return res.status('403').json({
+      error: "User is not a Validator"
+    })
+  }
+  next()
+}
 const stripe_auth = (req, res, next) => {
   request({
     url: "https://connect.stripe.com/oauth/token",

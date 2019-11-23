@@ -45,25 +45,19 @@ class PlaceOrder extends Component {
   }
 
   placeOrder = ()=>{
-    this.props.stripe.createToken().then(payload => {
-      if(payload.error){
-        this.setState({error: payload.error.message})
-      }else{
-        const jwt = auth.isAuthenticated()
-        create({userId:jwt.user._id}, {
-          t: jwt.token
-        }, this.props.checkoutDetails, payload.token.id).then((data) => {
-          if (data.error) {
-            this.setState({error: data.error})
-          } else {
-            cart.emptyCart(()=> {
-              this.setState({'orderId':data._id,'redirect': true})
-            })
-          }
-        })
-      }
-  })
-}
+      const jwt = auth.isAuthenticated()
+      create({userId:jwt.user._id}, {
+        t: jwt.token
+      }, this.props.checkoutDetails).then((data) => {
+        if (data.error) {
+          this.setState({error: data.error})
+        } else {
+          cart.emptyCart(()=> {
+            this.setState({'orderId':data._id,'redirect': true})
+          })
+        }
+      })
+  }
 
 render() {
     const {classes} = this.props

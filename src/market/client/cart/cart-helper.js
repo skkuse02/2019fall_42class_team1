@@ -13,6 +13,15 @@ const cart = {
       if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'))
       }
+      
+      // Remove Duplicated Items 
+      for(var i = 0; i < cart.length; i++){
+        if(cart[i]['product']['_id'] == item['_id']){
+          console.log("Duplicated Items Removed")
+          cart.splice(i, 1)
+        }
+      }
+
       cart.push({
         product: item,
         quantity: 1,
