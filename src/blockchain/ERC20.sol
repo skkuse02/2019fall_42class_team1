@@ -2,7 +2,7 @@ pragma solidity >=0.4.22 <0.6.0;
 import "./IERC20.sol";
 import "./SafeMath.sol";
 
-contract MyTokenERC20 is ERC20{
+contract ERC20 is IERC20{
     
     using SafeMath for uint256;
     
@@ -22,7 +22,7 @@ contract MyTokenERC20 is ERC20{
     
     constructor () public{
         _totalSupply = 10**18;
-        balances[msg.sender] = _totalSupply;
+        balances[tx.origin] = _totalSupply;
     }
     
     function totalSupply() external view returns (uint256){
@@ -40,11 +40,11 @@ contract MyTokenERC20 is ERC20{
     function transfer(address to, uint256 value) external NotZeroAddr(to) returns (bool){
         // Underflow And overflow check 
         require(
-            balances[msg.sender] >= value
+            balances[tx.origin] >= value
             && balances[to] + value > balances[to]
         );
         
-        _transfer(msg.sender, to, value);
+        _transfer(tx.origin, to, value);
         
         return true;
     }
@@ -59,8 +59,8 @@ contract MyTokenERC20 is ERC20{
     
     function approve(address spender, uint256 value) external NotZeroAddr(spender) returns (bool) {
         
-        allowed[msg.sender][spender] = value;
-        emit Approval(msg.sender, spender, value);
+        allowed[tx.origin][spender] = value;
+        emit Approval(tx.origin, spender, value);
         
         return true;
         
@@ -71,10 +71,10 @@ contract MyTokenERC20 is ERC20{
     // receiver : address to
     function transferFrom(address _from, address to, uint256 value) external NotZeroAddr(_from) NotZeroAddr(to) returns (bool){
         
-        require(allowed[_from][msg.sender] >= value);
+        require(allowed[_from][tx.origin] >= value);
         
         _transfer(_from, to, value);
-        allowed[_from][msg.sender] -= value;
+        allowed[_from][tx.origin] -= value;
         
         return true;
     }
