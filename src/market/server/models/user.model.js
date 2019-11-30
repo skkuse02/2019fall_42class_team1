@@ -28,6 +28,12 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: "Password is required"
   },
+  account: {
+    type: String
+  },
+  account_key: {
+    type: String
+  },
   salt: String,
   updated: Date,
   created: {
