@@ -106,6 +106,12 @@ class Profile extends Component {
           <ListItem>
             <ListItemText primary={"Phone: " + this.state.user.phone}/>
           </ListItem>
+          <ListItem>
+            <ListItemText primary={"Account: " + this.state.user.account}/>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary={"Private key: " + this.state.user.account_key}/>
+          </ListItem>
         </List>
         <MyOrders/>
       </Paper>
