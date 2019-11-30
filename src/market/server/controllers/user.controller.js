@@ -9,12 +9,13 @@ import Web3 from 'web3'
 const myStripe = stripe(config.stripe_test_secret_key)
 
 const create = (req, res, next) => {
-  const user = new User(req.body)
   const web3 = new Web3(config.infuraUrl)
+  const user = new User(req.body)
   const account = web3.eth.accounts.create(user.email)
   user.account = account.address
   user.account_key = account.privateKey
-  
+  web3.eth.accounts.wallet.add(account.privateKey)
+    
   user.save((err, result) => {
     if (err) {
       return res.status(400).json({

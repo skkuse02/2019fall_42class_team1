@@ -51,6 +51,8 @@ class EditProfile extends Component {
       password: '',
       address: '',
       phone: '',
+      accout: '',
+      accout_key: '',
       seller: false,
       validator: false,
       redirectToProfile: false,
@@ -68,7 +70,8 @@ class EditProfile extends Component {
         this.setState({error: data.error})
       } else {
         this.setState({name: data.name, email: data.email, seller: data.seller,
-          address: data.address, phone: data.phone, validator: data.validator})
+          address: data.address, phone: data.phone, account: data.account, 
+          account_key: data.account_key, validator: data.validator})
       }
     })
   }
@@ -80,6 +83,8 @@ class EditProfile extends Component {
       password: this.state.password || undefined,
       address: this.state.address || undefined,
       phone: this.state.phone || undefined,
+      account: this.state.account || undefined,
+      account_key: this.state.account_key || undefined,
       seller: this.state.seller,
       validator: this.state.validator
     }
@@ -122,6 +127,10 @@ class EditProfile extends Component {
           <TextField id="password" type="password" label="Password" className={classes.textField} value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
           <TextField id="address" label="Address" className={classes.textField} value={this.state.address} onChange={this.handleChange('address')} margin="normal"/><br/>
           <TextField id="phone" label="Phone" className={classes.textField} value={this.state.phone} onChange={this.handleChange('phone')} margin="normal"/><br/>
+          <TextField id="account" label="Account" className={classes.textField} value={this.state.account} onChange={this.handleChange('account')} margin="normal"/><br/>
+          <TextField id="account_key" label="Account_key" className={classes.textField} value={this.state.account_key} onChange={this.handleChange('account_key')} margin="normal"/><br/>
+
+
           <Typography type="subheading" component="h4" className={classes.subheading}>
             Seller Account
           </Typography>

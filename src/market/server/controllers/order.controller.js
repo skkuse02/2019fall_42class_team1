@@ -1,10 +1,35 @@
 import {Order, CartItem} from '../models/order.model'
 import _ from 'lodash'
 import errorHandler from './../helpers/dbErrorHandler'
+import config from './../../config/config'
+import Web3 from 'web3'  
 
+const web3 = new Web3(config.infuraUrl)
+const contract = new web3.eth.Contract(config.abi, config.contractAddr, {
+    gasPrice: '20000000000',
+    gas: 500000
+})
 const create = (req, res) => {
-  req.body.order.user = req.profile
+  req.body.order.user = req.profile 
+  let buyer = req.profile
+  web3.eth.accounts.wallet.add(buyer.account_key)  
+  contract.from = buter.account
+
   const order = new Order(req.body.order)
+
+  req.body.order.products.map((item) => {
+    let seller = item.shop.user
+    contract.methods.makeTx(seller.accout, seller.email, seller.phone, item.price, "None", 100, item.price)
+      .send({from: buyer.account}, (err, txid) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+          })
+        }
+        order.txid = txid
+      })
+  })
+
   order.save((err, result) => {
     if (err) {
       return res.status(400).json({

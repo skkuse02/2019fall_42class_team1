@@ -17,6 +17,7 @@ import {Redirect, Link} from 'react-router-dom'
 import config from './../../config/config'
 import stripeButton from './../assets/images/stripeButton.png'
 import MyOrders from './../order/MyOrders'
+import Web3 from 'web3'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -43,12 +44,15 @@ class Profile extends Component {
     super()
     this.state = {
       user: '',
+      balance: '',
       redirectToSignin: false
     }
     this.match = match
   }
   init = (userId) => {
     const jwt = auth.isAuthenticated()
+    const web3 = new Web3(config.infuraUrl)
+    const contract = new web3.eth.Contract(config.abi, config.contractAddr)
     read({
       userId: userId
     }, {t: jwt.token}).then((data) => {
@@ -56,6 +60,14 @@ class Profile extends Component {
         this.setState({redirectToSignin: true})
       } else {
         this.setState({user: data})
+        contract.methods.getBalance(this.state.user.account)
+          .call({from: this.state.user.account}, (err, res) => {
+            if(err)
+              this.setState({balance: 0})
+            else {
+              this.setState({balance: res})
+            }
+          })
       }
     })
   }
@@ -110,7 +122,7 @@ class Profile extends Component {
             <ListItemText primary={"Account: " + this.state.user.account}/>
           </ListItem>
           <ListItem>
-            <ListItemText primary={"Private key: " + this.state.user.account_key}/>
+            <ListItemText primary={"Balance: " + this.state.balance}/>
           </ListItem>
         </List>
         <MyOrders/>
