@@ -45,6 +45,7 @@
     "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
+    "ethereumjs-tx": "^2.1.1",
     "express": "^4.16.3",
     "express-jwt": "^5.3.1",
     "formidable": "^1.2.1",
@@ -62,7 +63,9 @@
     "react-router-dom": "^4.2.2",
     "react-stripe-elements": "^1.6.0",
     "request": "^2.85.0",
-    "stripe": "^5.8.0"
+    "stripe": "^5.8.0",
+    "web3": "^1.2.4",
+    "web3-eth-accounts": "^1.2.4"
   },
   "bugs": {
     "url": "https://github.com/shamahoque/mern-marketplace/issues"

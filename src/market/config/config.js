@@ -1,5 +1,6 @@
 const config = {
   env: process.env.NODE_ENV || 'development',
+  infuraUrl: "https://ropsten.infura.io/v3/a1f88129a07f4149ac46569f45af50ab",
   port: process.env.PORT || 3000,
   jwtSecret: process.env.JWT_SECRET || "YOUR_secret_key",
   mongoUri: process.env.MONGODB_URI ||
