@@ -48,12 +48,13 @@ class PlaceOrder extends Component {
       const jwt = auth.isAuthenticated()
       create({userId:jwt.user._id}, {
         t: jwt.token
-      }, this.props.checkoutDetails).then((data) => {
-        if (data.error) {
-          this.setState({error: data.error})
+      }, this.props.checkoutDetails, (err, data) => {
+        if (err) {
+          console.log(err)
+          this.setState({error: err})
         } else {
           cart.emptyCart(()=> {
-            this.setState({'orderId':data._id,'redirect': true})
+            this.setState({'orderId':data._id,'txid': data.txid, 'redirect': true})
           })
         }
       })
@@ -67,7 +68,6 @@ render() {
     return (
     <span>
       <Typography type="subheading" component="h3" className={classes.subheading}>
-        Card details
       </Typography>
       <div className={classes.checkout}>
         { this.state.error &&

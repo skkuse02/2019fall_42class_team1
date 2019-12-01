@@ -99,7 +99,7 @@ class Order extends Component {
   constructor({match}) {
     super()
     this.state = {
-      order: {products:[], delivery_address:{}},
+      order: {products:[], delivery_address:{}, txid:[]},
     }
     this.match = match
   }

@@ -1,4 +1,7 @@
 import {Order, CartItem} from '../models/order.model'
+import User from '../models/user.model'
+import Shop from '../models/shop.model'
+import Product from '../models/product.model' 
 import _ from 'lodash'
 import errorHandler from './../helpers/dbErrorHandler'
 import config from './../../config/config'
@@ -6,37 +9,37 @@ import Web3 from 'web3'
 
 const web3 = new Web3(config.infuraUrl)
 const contract = new web3.eth.Contract(config.abi, config.contractAddr, {
-    gasPrice: '20000000000',
-    gas: 500000
+    gasPrice: '10000000000',
+    gas: 3000000
 })
 const create = (req, res) => {
+
   req.body.order.user = req.profile 
-  let buyer = req.profile
-  web3.eth.accounts.wallet.add(buyer.account_key)  
-  contract.from = buter.account
-
   const order = new Order(req.body.order)
+  User.findOne({_id: req.profile}).exec((err, buyer)=>{
+    Shop.findOne({_id: order.products[0].shop}).exec((err, shop)=>{
+      User.findOne({_id: shop.owner}).exec((err, seller)=>{
+        Product.findOne({_id: order.products[0].product}).exec((err, item)=>{
+          web3.eth.accounts.wallet.add(buyer.account_key)  
+          contract.from = buyer.account
+          contract.methods.makeTx(seller.account, seller.email, seller.phone, item.price, "None", 100, item.price)
+          .send({from: buyer.account}, (err, txid)=>{
+            if(err) {
+              console.log(err)
+              return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+            }
+            order.txid = txid
+            console.log(order)
+            order.save((err, result)=>{
+              if(err) 
+                return res.status(400).json({error: errorHandler.getErrorMessage(err)})
 
-  req.body.order.products.map((item) => {
-    let seller = item.shop.user
-    contract.methods.makeTx(seller.accout, seller.email, seller.phone, item.price, "None", 100, item.price)
-      .send({from: buyer.account}, (err, txid) => {
-        if (err) {
-          return res.status(400).json({
-            error: errorHandler.getErrorMessage(err)
+              res.status(200).json(result)
+            })
           })
-        }
-        order.txid = txid
+        })
       })
-  })
-
-  order.save((err, result) => {
-    if (err) {
-      return res.status(400).json({
-        error: errorHandler.getErrorMessage(err)
-      })
-    }
-    res.status(200).json(result)
+    })
   })
 }
 

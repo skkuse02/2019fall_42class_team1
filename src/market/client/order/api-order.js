@@ -10,7 +10,13 @@ const create = (params, credentials, order) => {
     })
     .then((response) => {
       return response.json()
-    }).catch((err) => console.log(err))
+    })
+    .then((responseData) => {
+      console.log(responseData)
+      return responseData;
+    })
+    .catch((err) => console.log(err))
+
 }
 
 const listByShop = (params, credentials) => {
