@@ -28,7 +28,6 @@ const create = (req, res) => {
               console.log(err)
               return res.status(400).json({error: errorHandler.getErrorMessage(err)})
             }
-            order.txid = txid
             console.log(order)
             order.save((err, result)=>{
               if(err) 

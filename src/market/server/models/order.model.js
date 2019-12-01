@@ -35,7 +35,6 @@ const OrderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  txid: {type: String},
   user: {type: mongoose.Schema.ObjectId, ref: 'User'}
 })
 

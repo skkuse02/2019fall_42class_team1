@@ -8,12 +8,8 @@ const create = (params, credentials, order) => {
       },
       body: JSON.stringify({order: order})
     })
-    .then((response) => {
+      .then((response) => {
       return response.json()
-    })
-    .then((responseData) => {
-      console.log(responseData)
-      return responseData;
     })
     .catch((err) => console.log(err))
 

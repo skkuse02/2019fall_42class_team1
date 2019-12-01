@@ -30,9 +30,9 @@ class MyOrders extends Component {
     const jwt = auth.isAuthenticated()
     listByUser({
       userId: jwt.user._id
-    }, {t: jwt.token}, (err, data) => {
-      if (err) {
-        console.log(err)
+    }, {t: jwt.token}).then((data) => {
+      if (data.error) {
+        console.log(data.error)
       } else {
         this.setState({orders: data})
       }
