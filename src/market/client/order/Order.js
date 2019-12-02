@@ -132,7 +132,8 @@ class Order extends Component {
         </Typography>
         <Typography type="subheading" component="h2" className={classes.subheading}>
             Order Code: <strong>{this.state.order._id}</strong> <br/> Placed on {(new Date(this.state.order.created)).toDateString()}
-        </Typography><br/>
+        </Typography>          
+        <a href={'http://ropsten.etherscan.io/tx/'+this.state.order.payment_id}><Typography type="subheading" component="h2" className={classes.subheading}><strong>Link To Blockchain Network</strong></Typography></a><br/>
         <Grid container spacing={8}>
             <Grid item xs={7} sm={7}>
                 <Card className={classes.innerCardItems}>
