@@ -9,21 +9,30 @@ import ExpandMore from 'material-ui-icons/ExpandMore'
 import Collapse from 'material-ui/transitions/Collapse'
 import Divider from 'material-ui/Divider'
 import auth from './../auth/auth-helper'
-import ProductOrderEdit from './ProductOrderEdit'
+import PostValidation from './PostValidation'
+import Iframe from 'react-iframe'
 import config from './../../config/config'
 import Web3 from 'web3'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
-    maxWidth: 600,
     margin: 'auto',
     padding: theme.spacing.unit * 3,
-    marginTop: theme.spacing.unit * 5
+    marginTop: theme.spacing.unit * 5,
+    float: 'left',
+    width: '50%'
   }),
   title: {
     margin: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 3}px ${theme.spacing.unit}px` ,
     color: theme.palette.protectedTitle,
     fontSize: '1.2em'
+  },
+  iframe: {
+    marginTop: theme.spacing.unit * 5,
+    padding: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 10,
+    frameborder: '0',
+    float: 'right'
   },
   subheading: {
     marginTop: theme.spacing.unit,
@@ -47,7 +56,6 @@ class Valid extends Component {
     this.match = match
   }
 
-
   findOpenTx = (array, callback) => {
     var web3 =  new Web3(config.infuraUrl)
     var contract = new web3.eth.Contract(config.abi, config.contractAddr)
@@ -56,7 +64,26 @@ class Valid extends Component {
     array.forEach(function(el){
       contract.methods.getOpenTx(el)
         .call({from: config.defaultAddr}, (err, res) => {
-          toReturn.push(res)
+          var txid = res['0']
+          var seller = res['1']
+          var splited = res['2'].split("#")
+          var a = new Date(Number(splited[0])*1000)
+          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+          var year = a.getFullYear()
+          var month = months[a.getMonth()]
+          var date = a.getDate()
+          var hour = a.getHours()
+          var min = a.getMinutes()
+          var sec = a.getSeconds()
+          var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec
+       
+          var tmp = {timestamp: time, 
+                     id: txid, 
+                     sellerAccount: seller, 
+                     sellerId: splited[1], 
+                     sellerPhone: splited[2] }
+
+          toReturn.push(tmp)
           if (toReturn.length === array.length) {
           // that was the last push - we have completed
             callback(null, toReturn);
@@ -97,12 +124,6 @@ class Valid extends Component {
     this.setState({open: index})
   }
 
-  updateOrders = (index, updatedOrder) => {
-    let orders = this.state.orders
-    orders[index] = updatedOrder
-    this.setState({orders: orders})
-  }
-
   render() {
     const {classes} = this.props
     return (
@@ -115,21 +136,24 @@ class Valid extends Component {
           {this.state.transactions.map((tx, index) => {
             return   <span key={index}>
               <ListItem button onClick={this.handleClick(index)}>
-                <ListItemText primary={'TX ID # '+tx['0']} secondary={(new Date()).toDateString()}/>
+                <ListItemText primary={'Transaction ID # '+ tx.id} secondary={tx.timestamp}/>
                 {this.state.open == index ? <ExpandLess /> : <ExpandMore />}
               </ListItem><Divider/>
               <Collapse component="li" in={this.state.open == index} timeout="auto" unmountOnExit>
-                  <div className={classes.customerDetails}>
-                    <Typography type="subheading" component="h3" className={classes.subheading}>
-                      Deliver to:
-                    </Typography>
-                    <Typography type="subheading" component="h3" color="primary">{tx['1']}</Typography>
-                  </div>
-                </Collapse>
-                <Divider/>
-              </span>})}
+                <div className={classes.customerDetails}>
+                  <Typography type="subheading" component="h3" className={classes.subheading}>
+                    {'Seller ID: '+ tx.sellerId} 
+                  </Typography>
+                  <Typography type="subheading" component="h3" color="primary">{'Account: '+tx.sellerAccount}</Typography>
+                  <Typography type="subheading" component="h3" color="primary">{'Phone: '+tx.sellerPhone}</Typography>
+                </div>
+                <PostValidation txid={tx.id} transaction={tx} txIndex={index} />  
+              </Collapse>
+              <Divider/>
+            </span>})}
           </List>
         </Paper>
+        <Iframe src="https://m.bunjang.co.kr/talk/account_check" className={classes.iframe} height="600" width="450" margin='auto' padding='auto'/ >
       </div>)
     }
   }

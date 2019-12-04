@@ -15,6 +15,21 @@ const create = (params, credentials, order) => {
 
 }
 
+const validate = (params, credentials, report) => {
+  return fetch('/api/validation/report/by/'+params.userId, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify({report: report})
+    })
+    .then((response) => {
+      return response.json()
+    }).catch((err) => console.log(err))
+}
+
 const listByShop = (params, credentials) => {
   return fetch('/api/orders/shop/'+params.shopId, {
     method: 'GET',
@@ -109,6 +124,7 @@ const read = (params, credentials) => {
 
 export {
   create,
+  validate,
   listByShop,
   update,
   cancelProduct,

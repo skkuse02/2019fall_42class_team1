@@ -10,6 +10,9 @@ const router = express.Router()
 router.route('/api/orders/:userId')
   .post(authCtrl.requireSignin, productCtrl.decreaseQuantity, orderCtrl.create)
 
+router.route('/api/validation/report/by/:userId')
+  .post(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.isValidator, orderCtrl.validationReport)
+
 router.route('/api/orders/shop/:shopId')
   .get(authCtrl.requireSignin, shopCtrl.isOwner, orderCtrl.listByShop)
 

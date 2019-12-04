@@ -14,6 +14,7 @@ const contract = new web3.eth.Contract(config.abi, config.contractAddr, {
 })
 const create = (req, res) => {
 
+  console.log(config.contractAddr)
   req.body.order.user = req.profile 
   const order = new Order(req.body.order)
   User.findOne({_id: req.profile}).exec((err, buyer)=>{
@@ -70,6 +71,31 @@ const update = (req, res) => {
     })
 }
 
+const validationReport = (req, res) => {
+  var report = req.body.report
+  var account = req.profile.account
+  console.log("ValidationReport")
+  web3.eth.accounts.wallet.add(req.profile.account_key)  
+  console.log("Priv key"+req.profile.account_key)
+  console.log("Pub key"+req.profile.account)
+  console.log("report"+report.txid)
+  console.log("report"+report.nameOfPage)
+  console.log("report"+report.nameOfSite)
+  console.log("report"+report.accessTime)
+  console.log("report"+report.url)
+
+  contract.methods.validate(report.txid, report.nameOfPage, report.nameOfSite, report.accessTime, report.url)
+    .send({from: account}, (err, txid)=> {
+      
+      if (err){ 
+        console.log(err)
+        return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+      }
+      console.log(txid)
+      res.status('200').json(txid)
+    })
+}
+
 const getStatusValues = (req, res) => {
   res.json(CartItem.schema.path('status').enumValues)
 }
@@ -109,5 +135,6 @@ export default {
   getStatusValues,
   orderByID,
   listByUser,
-  read
+  read,
+  validationReport
 }

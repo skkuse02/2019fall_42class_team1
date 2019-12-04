@@ -98,7 +98,7 @@ const isSeller = (req, res, next) => {
   }
   next()
 }
-const isVaildator = (req, res, next) => {
+const isValidator = (req, res, next) => {
   const isValidator_ = req.profile && req.profile.validator
   if (!isValidator_) {
     return res.status('403').json({
@@ -190,6 +190,7 @@ export default {
   remove,
   update,
   isSeller,
+  isValidator,
   stripe_auth,
   stripeCustomer,
   createCharge
