@@ -11,9 +11,9 @@ const config = {
   stripe_connect_test_client_id: 'YOUR_stripe_connect_test_client',
   stripe_test_secret_key: 'YOUR_stripe_test_secret_key',
   stripe_test_api_key: 'YOUR_stripe_test_api_key',
-  contractAddr: '0xA92dEc34cE7d4762eDb4cc7533e91d32a94D6Ad8',
+  contractAddr: '0x27D73889389E14364A5aaDD0c0b7BB3895f7E4DB',
   defaultAddr: '0x37F6Bbe96749fEA346F97CEbafc64c71b012E938', 
-  abi:[
+  abi: [
     {
       "constant": false,
       "inputs": [
@@ -349,6 +349,7 @@ const config = {
       "stateMutability": "view",
       "type": "function"
     }
-  ] 
+  ]
+}
 
 export default config

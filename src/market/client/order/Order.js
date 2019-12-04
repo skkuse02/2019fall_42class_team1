@@ -180,6 +180,13 @@ class Order extends Component {
               </Card>
             </Grid>
         </Grid>
+        <Grid container spacing={5}>
+            <Grid item xs={12} sm={12}>
+              <Card className={classes.innerCard}>
+                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">{this.state.order.delivery_address.street}</Typography>
+              </Card>
+            </Grid>
+        </Grid>
       </Card>
     )
   }

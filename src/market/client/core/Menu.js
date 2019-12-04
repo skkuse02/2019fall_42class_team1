@@ -27,7 +27,7 @@ const Menu = withRouter(({history}) => (
   <AppBar position="static">
     <Toolbar>
       <Typography type="title" color="inherit">
-        MERN Marketplace
+        <img src={require('../assets/images/used2Block_logo.png')} widht='240px' height='30px'/>
       </Typography>
       <div>
         <Link to="/">
