@@ -11,9 +11,37 @@ const config = {
   stripe_connect_test_client_id: 'YOUR_stripe_connect_test_client',
   stripe_test_secret_key: 'YOUR_stripe_test_secret_key',
   stripe_test_api_key: 'YOUR_stripe_test_api_key',
-  contractAddr: '0x07944aE6789Ae9b6810dbFb582B5987F93818dE4',
+  contractAddr: '0xA92dEc34cE7d4762eDb4cc7533e91d32a94D6Ad8',
   defaultAddr: '0x37F6Bbe96749fEA346F97CEbafc64c71b012E938', 
-  abi: [
+  abi:[
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "txid",
+          "type": "address"
+        }
+      ],
+      "name": "completeTx",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "target",
+          "type": "address"
+        }
+      ],
+      "name": "giveIncentive",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
     {
       "constant": false,
       "inputs": [
@@ -60,7 +88,7 @@ const config = {
           "type": "address"
         }
       ],
-      "name": "terminateTx",
+      "name": "reportTx",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -145,7 +173,7 @@ const config = {
       "outputs": [
         {
           "name": "",
-          "type": "uint256[]"
+          "type": "address[]"
         }
       ],
       "payable": false,
@@ -164,7 +192,7 @@ const config = {
       "outputs": [
         {
           "name": "",
-          "type": "uint256[]"
+          "type": "address[]"
         }
       ],
       "payable": false,
@@ -183,7 +211,7 @@ const config = {
       "outputs": [
         {
           "name": "",
-          "type": "uint256[]"
+          "type": "address[]"
         }
       ],
       "payable": false,
@@ -321,7 +349,6 @@ const config = {
       "stateMutability": "view",
       "type": "function"
     }
-  ]
-}
+  ] 
 
 export default config
