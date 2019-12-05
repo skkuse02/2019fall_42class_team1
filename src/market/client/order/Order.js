@@ -4,11 +4,17 @@ import Typography from 'material-ui/Typography'
 import Grid from 'material-ui/Grid'
 import PropTypes from 'prop-types'
 import Divider from 'material-ui/Divider'
+import Button from 'material-ui/Button'
+import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle} from 'material-ui/Dialog'
 import {withStyles} from 'material-ui/styles'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import {read} from './api-order.js'
 import {Link} from 'react-router-dom'
+import { red, blue } from 'material-ui/colors'
 import config from './../../config/config'
 import Web3 from 'web3'
+
+const redTheme = createMuiTheme({ palette: { secondary: red } })
 
 const styles = theme => ({
   card: {
@@ -78,6 +84,14 @@ const styles = theme => ({
     marginRight: '40px',
     fontSize: '1.5em',
     color: 'rgb(72, 175, 148)'
+  },
+  itemButton: {
+    float: 'left',
+    verticalAlign: 'bottom',
+    marginTop: '50px',
+    marginRight: '3px',
+    marginLeft: '30px',
+    fontSize: '1.5em',
   },
   itemShop: {
     display: 'block',
@@ -197,6 +211,7 @@ class Order extends Component {
                             <span className={classes.itemTotal}>${item.product.price * item.quantity}</span>
                             <span className={classes.itemShop}>Shop: {item.shop.name}</span>
                             <Typography type="subheading" component="h3" color={item.status == "Cancelled" ? "error":"secondary"}>Status: {item.status}</Typography>
+                          
                           </CardContent>
                         </div>
                       </Card>
@@ -206,7 +221,7 @@ class Order extends Component {
                   <div className={classes.checkout}>
                     <span className={classes.total}>Total: ${this.getTotal()}</span>
                   </div>
-                </Card>
+                </Card> 
             </Grid>
             <Grid item xs={5} sm={5}>
               <Card className={classes.innerCard}>
@@ -250,6 +265,15 @@ class Order extends Component {
                 <a href={this.state.validation.url.localeCompare('Null') == 0 ? './' : 'http://'+this.state.validation.url}>Link To Resource</a>
               </Card>
             </Grid>
+        </Grid>
+        <Grid container spacing={8}>
+          <div>
+            <span className={classes.itemButton}><Button variant="raised" color="primary">Complete Transaction</Button></span>
+            <MuiThemeProvider theme={redTheme}>
+            <span className={classes.itemButton}><Button variant="raised" color="secondary">Report Transaction</Button></span>
+            </MuiThemeProvider>
+            <span className={classes.itemButton}><Button variant="raised">Revert Validation</Button></span>
+          </div>
         </Grid>
       </Card>
     )
