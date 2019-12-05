@@ -13,6 +13,15 @@ router.route('/api/orders/:userId')
 router.route('/api/validation/report/by/:userId')
   .post(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.isValidator, orderCtrl.validationReport)
 
+router.route('/api/order/complete/:userId')
+  .post(authCtrl.requireSignin, authCtrl.hasAuthorization, orderCtrl.completeTx)
+
+router.route('/api/order/terminate/:userId')
+  .post(authCtrl.requireSignin, authCtrl.hasAuthorization, orderCtrl.terminateTx)
+
+router.route('/api/order/revertValidation/:userId')
+  .post(authCtrl.requireSignin, authCtrl.hasAuthorization, orderCtrl.revertValidation)
+
 router.route('/api/orders/shop/:shopId')
   .get(authCtrl.requireSignin, shopCtrl.isOwner, orderCtrl.listByShop)
 

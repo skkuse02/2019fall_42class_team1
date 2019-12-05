@@ -11,35 +11,64 @@ const config = {
   stripe_connect_test_client_id: 'YOUR_stripe_connect_test_client',
   stripe_test_secret_key: 'YOUR_stripe_test_secret_key',
   stripe_test_api_key: 'YOUR_stripe_test_api_key',
-  contractAddr: '0x08Be87a4914Cc729Ae7fA5047358c6A9742c9A0D',
+  contractAddr: '0xb4BF1f517C5e5c5Ea75418C4C2388E9d7435F98E',
   defaultAddr: '0x37F6Bbe96749fEA346F97CEbafc64c71b012E938', 
   abi: [
     {
-      "constant": false,
+      "constant": true,
       "inputs": [
         {
           "name": "txid",
           "type": "address"
         }
       ],
-      "name": "completeTx",
-      "outputs": [],
+      "name": "getValidation",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
       "inputs": [
         {
-          "name": "target",
+          "name": "txid",
           "type": "address"
         }
       ],
-      "name": "giveToken",
-      "outputs": [],
+      "name": "getStatus",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "seller",
+          "type": "address"
+        }
+      ],
+      "name": "findFraudWithAddres",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -85,31 +114,69 @@ const config = {
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
       "inputs": [
         {
           "name": "txid",
           "type": "address"
         }
       ],
-      "name": "reportTx",
-      "outputs": [],
+      "name": "getOrderId",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
-      "constant": false,
+      "constant": true,
+      "inputs": [],
+      "name": "getTxLen",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
-          "name": "newOwner",
+          "name": "phone",
+          "type": "string"
+        }
+      ],
+      "name": "findFraudWithPhone",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
           "type": "address"
         }
       ],
-      "name": "transferOwnership",
-      "outputs": [],
       "payable": false,
-      "stateMutability": "nonpayable",
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -143,48 +210,6 @@ const config = {
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "name": "bank",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "constructor"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "OwnerLog",
-      "type": "event"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "seller",
-          "type": "address"
-        }
-      ],
-      "name": "findFraudWithAddres",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [
         {
@@ -204,18 +229,46 @@ const config = {
       "type": "function"
     },
     {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "txid",
+          "type": "address"
+        }
+      ],
+      "name": "completeTx",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "txid",
+          "type": "address"
+        }
+      ],
+      "name": "revertValidation",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [
         {
-          "name": "phone",
-          "type": "string"
+          "name": "",
+          "type": "uint256"
         }
       ],
-      "name": "findFraudWithPhone",
+      "name": "openTxids",
       "outputs": [
         {
           "name": "",
-          "type": "address[]"
+          "type": "address"
         }
       ],
       "payable": false,
@@ -226,19 +279,33 @@ const config = {
       "constant": true,
       "inputs": [
         {
-          "name": "id",
-          "type": "address"
+          "name": "orderId",
+          "type": "string"
         }
       ],
-      "name": "getBalance",
+      "name": "getTxAddress",
       "outputs": [
         {
           "name": "",
-          "type": "uint256"
+          "type": "address"
         }
       ],
       "payable": false,
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "txid",
+          "type": "address"
+        }
+      ],
+      "name": "reportTx",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -273,66 +340,42 @@ const config = {
       "type": "function"
     },
     {
-      "constant": true,
+      "constant": false,
       "inputs": [
         {
-          "name": "txid",
+          "name": "target",
           "type": "address"
         }
       ],
-      "name": "getOrderId",
-      "outputs": [
+      "name": "giveToken",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
         {
-          "name": "",
-          "type": "string"
+          "name": "newOwner",
+          "type": "address"
         }
       ],
+      "name": "transferOwnership",
+      "outputs": [],
       "payable": false,
-      "stateMutability": "view",
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
       "constant": true,
       "inputs": [
         {
-          "name": "txid",
+          "name": "id",
           "type": "address"
         }
       ],
-      "name": "getStatus",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint8"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "orderId",
-          "type": "string"
-        }
-      ],
-      "name": "getTxAddress",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getTxLen",
+      "name": "getBalance",
       "outputs": [
         {
           "name": "",
@@ -344,58 +387,29 @@ const config = {
       "type": "function"
     },
     {
-      "constant": true,
       "inputs": [
         {
-          "name": "txid",
+          "name": "bank",
           "type": "address"
         }
       ],
-      "name": "getValidation",
-      "outputs": [
-        {
-          "name": "",
-          "type": "string"
-        }
-      ],
       "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      "stateMutability": "nonpayable",
+      "type": "constructor"
     },
     {
-      "constant": true,
+      "anonymous": false,
       "inputs": [
         {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "openTxids",
-      "outputs": [
-        {
+          "indexed": false,
           "name": "",
           "type": "address"
         }
       ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "owner",
-      "outputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      "name": "OwnerLog",
+      "type": "event"
     }
-  ] 
+  ]
 }
 
 export default config

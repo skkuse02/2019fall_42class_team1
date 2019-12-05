@@ -15,6 +15,55 @@ const create = (params, credentials, order) => {
 
 }
 
+const complete = (params, credentials, txid) => {
+  return fetch('/api/order/complete/'+params.userId, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify({txid: txid})
+    })
+      .then((response) => {
+      return response.json()
+    })
+    .catch((err) => console.log(err))
+
+}
+const terminate = (params, credentials, txid) => {
+  return fetch('/api/order/terminate/'+params.userId, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify({txid: txid})
+    })
+      .then((response) => {
+      return response.json()
+    })
+    .catch((err) => console.log(err))
+
+}
+const revert = (params, credentials, txid) => {
+  return fetch('/api/order/revertValidation/'+params.userId, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      },
+      body: JSON.stringify({txid: txid})
+    })
+      .then((response) => {
+      return response.json()
+    })
+    .catch((err) => console.log(err))
+
+}
+
 const validate = (params, credentials, report) => {
   return fetch('/api/validation/report/by/'+params.userId, {
       method: 'POST',
@@ -131,5 +180,8 @@ export {
   processCharge,
   getStatusValues,
   listByUser,
-  read
+  read,
+  complete,
+  terminate,
+  revert
 }

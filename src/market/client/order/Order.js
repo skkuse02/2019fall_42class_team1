@@ -8,13 +8,16 @@ import Button from 'material-ui/Button'
 import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle} from 'material-ui/Dialog'
 import {withStyles} from 'material-ui/styles'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-import {read} from './api-order.js'
+import {read, terminate, complete, revert} from './api-order.js'
 import {Link} from 'react-router-dom'
 import { red, blue } from 'material-ui/colors'
 import config from './../../config/config'
 import Web3 from 'web3'
+import auth from './../auth/auth-helper'
 
 const redTheme = createMuiTheme({ palette: { secondary: red } })
+const web3 =  new Web3(config.infuraUrl)
+const contract = new web3.eth.Contract(config.abi, config.contractAddr)
 
 const styles = theme => ({
   card: {
@@ -107,7 +110,7 @@ const styles = theme => ({
     color: 'rgb(53, 97, 85)',
     marginRight: '16px',
     fontWeight: '600',
-    verticalAlign: 'bottom'
+    verticalAlign: 'bottom' 
   }
 })
 
@@ -117,12 +120,17 @@ class Order extends Component {
     this.state = {
       order: {products:[], delivery_address:{}},
       validation: {time: '', nameOfPage: '', nameOfSite: '', accessTime: '', url: ''},
-      status: 'Waiting'
+      status: 'Waiting',
+      completed: false,
+      msg: '',
+      error: '',
+      txid: '',
+      result: ''
     }
     this.match = match
   }
 
-  getValidation = (web3, contract, txid, callback) => {
+  getValidation = (txid, callback) => {
     console.log(txid)
     contract.methods.getValidation(txid)
       .call({from: config.defaultAddr}, (err, res) => {
@@ -152,6 +160,54 @@ class Order extends Component {
       })
       callback()
   }
+  
+  completeTx = () => {
+    const jwt = auth.isAuthenticated()
+    complete({userId:jwt.user._id}, {
+      t: jwt.token
+    }, this.state.txid)
+    .then((data) => {
+      if (data.error) {
+        console.log(data.error)
+        this.setState({error: data.error})
+      }
+      else {
+        this.setState({result: data, completed: true, msg: 'Transaction Completed'})
+      }
+    })
+  }
+
+  terminateTx = () => {
+    const jwt = auth.isAuthenticated()
+    terminate({userId:jwt.user._id}, {
+      t: jwt.token
+    }, this.state.txid)
+    .then((data) => {
+      if (data.error) {
+        console.log(data.error)
+        this.setState({error: data.error})
+      }
+      else {
+        this.setState({result: data, completed: true, msg: 'Transaction Terminated'})
+      }
+    })
+  }
+
+  revertValidation = () => {
+    const jwt = auth.isAuthenticated()
+    revert({userId:jwt.user._id}, {
+      t: jwt.token
+    }, this.state.txid)
+    .then((data) => {
+      if (data.error) {
+        console.log(data.error)
+        this.setState({error: data.error})
+      }
+      else {
+        this.setState({result: data, completed: true, msg: 'Validation Reverted'})
+      }
+    })
+  }
 
   componentDidMount = () => {
     read({
@@ -161,13 +217,12 @@ class Order extends Component {
         this.setState({error: data.error})
       } else {
         this.setState({order: data})
-        var web3 =  new Web3(config.infuraUrl)
-        var contract = new web3.eth.Contract(config.abi, config.contractAddr)
-
+        
         contract.methods.getTxAddress(this.state.order._id.toString())
           .call((err, res)=>{
             console.log(res)
-            this.getValidation(web3, contract, res, () => {
+            this.setState({txid: res})
+            this.getValidation(res, () => {
               console.log(this.state.validation)
             })     
           })
@@ -268,14 +323,32 @@ class Order extends Component {
         </Grid>
         <Grid container spacing={8}>
           <div>
-            <span className={classes.itemButton}><Button variant="raised" color="primary">Complete Transaction</Button></span>
+            <span className={classes.itemButton}><Button variant="raised" color="primary" onClick={this.completeTx}>Complete Transaction</Button></span>
             <MuiThemeProvider theme={redTheme}>
-            <span className={classes.itemButton}><Button variant="raised" color="secondary">Report Transaction</Button></span>
+            <span className={classes.itemButton}><Button variant="raised" color="secondary" onClick={this.terminateTx}>Report Transaction</Button></span>
             </MuiThemeProvider>
-            <span className={classes.itemButton}><Button variant="raised">Revert Validation</Button></span>
+            <span className={classes.itemButton}><Button variant="raised" onClick={this.revertValidation}>Revert Validation</Button></span>
           </div>
+          {this.state.error && (<Typography component="p" color="error">
+              <Icon color="error" className={classes.error}>error</Icon>
+              {this.state.error}</Typography>)
+          }
         </Grid>
+         <Dialog open={this.state.completed} disableBackdropClick={true}>
+          <DialogTitle id='alert-dialog-title'>{this.state.msg}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id='alert-dialog-description'>
+              You need to check out the result
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button color="primary" autoFocus="autoFocus" variant="raised" href={'https://ropsten.etherscan.io/tx/'+this.state.result}>
+              Link
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Card>
+      
     )
   }
 }

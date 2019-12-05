@@ -71,6 +71,56 @@ const update = (req, res) => {
     })
 }
 
+const completeTx = (req, res) => {
+  var txid = req.body.txid
+  var account = req.profile.account
+  console.log("Completed Tx")
+  web3.eth.accounts.wallet.add(req.profile.account_key)  
+
+  contract.methods.completeTx(txid)
+  .send({from: account}, (err, _txid)=> {
+    if (err){ 
+      console.log(err)
+      return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+    }
+    console.log(_txid)
+    res.status('200').json(_txid)
+  })
+}
+
+const terminateTx = (req, res) => {
+  var txid = req.body.txid
+  var account = req.profile.account
+  console.log("terminated Tx")
+  web3.eth.accounts.wallet.add(req.profile.account_key)  
+
+  contract.methods.reportTx(txid)
+  .send({from: account}, (err, _txid)=> {
+    if (err){ 
+      console.log(err)
+      return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+    }
+    console.log(_txid)
+    res.status('200').json(_txid)
+  })
+}
+
+const revertValidation = (req, res) => {
+  var txid = req.body.txid
+  var account = req.profile.account
+  console.log("Revert Validation")
+  web3.eth.accounts.wallet.add(req.profile.account_key)  
+
+  contract.methods.revertValidation(txid)
+  .send({from: account}, (err, _txid)=> {
+    if (err){ 
+      console.log(err)
+      return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+    }
+    console.log(_txid)
+    res.status('200').json(_txid)
+  })
+}
 const validationReport = (req, res) => {
   var report = req.body.report
   var account = req.profile.account
@@ -129,5 +179,8 @@ export default {
   orderByID,
   listByUser,
   read,
-  validationReport
+  validationReport,
+  completeTx,
+  terminateTx,
+  revertValidation
 }

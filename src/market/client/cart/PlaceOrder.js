@@ -48,11 +48,13 @@ class PlaceOrder extends Component {
       const jwt = auth.isAuthenticated()
       create({userId:jwt.user._id}, {
         t: jwt.token
-      }, this.props.checkoutDetails).then((data)=> {
+      }, this.props.checkoutDetails)
+      .then((data)=> {
         if (data.error) {
           console.log(data.error)
           this.setState({error: data.error})
-        } else {
+        } 
+        else {
           cart.emptyCart(()=> {
             this.setState({'orderId':data._id, 'redirect': true})
           })
