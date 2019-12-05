@@ -11,7 +11,7 @@ const config = {
   stripe_connect_test_client_id: 'YOUR_stripe_connect_test_client',
   stripe_test_secret_key: 'YOUR_stripe_test_secret_key',
   stripe_test_api_key: 'YOUR_stripe_test_api_key',
-  contractAddr: '0x27D73889389E14364A5aaDD0c0b7BB3895f7E4DB',
+  contractAddr: '0xC8778756DDbDe86BA0b8c0B8D13559A6E0719277',
   defaultAddr: '0x37F6Bbe96749fEA346F97CEbafc64c71b012E938', 
   abi: [
     {
@@ -36,7 +36,7 @@ const config = {
           "type": "address"
         }
       ],
-      "name": "giveIncentive",
+      "name": "giveToken",
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
@@ -45,6 +45,10 @@ const config = {
     {
       "constant": false,
       "inputs": [
+        {
+          "name": "orderId",
+          "type": "string"
+        },
         {
           "name": "seller",
           "type": "address"
@@ -272,11 +276,49 @@ const config = {
           "type": "address"
         }
       ],
+      "name": "getOrderId",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "txid",
+          "type": "address"
+        }
+      ],
       "name": "getStatus",
       "outputs": [
         {
           "name": "",
           "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "orderId",
+          "type": "string"
+        }
+      ],
+      "name": "getTxAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
         }
       ],
       "payable": false,
@@ -349,7 +391,7 @@ const config = {
       "stateMutability": "view",
       "type": "function"
     }
-  ]
+  ] 
 }
 
 export default config

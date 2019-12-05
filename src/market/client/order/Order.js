@@ -7,6 +7,9 @@ import Divider from 'material-ui/Divider'
 import {withStyles} from 'material-ui/styles'
 import {read} from './api-order.js'
 import {Link} from 'react-router-dom'
+import config from './../../config/config'
+import Web3 from 'web3'
+
 
 const styles = theme => ({
   card: {
@@ -100,8 +103,34 @@ class Order extends Component {
     super()
     this.state = {
       order: {products:[], delivery_address:{}},
+      validation: {time: '', nameOfPage: '', nameOfSite: '', accessTime: '', url: ''}
     }
     this.match = match
+  }
+
+  getValidation = (txid, callback) => {
+    var web3 =  new Web3(config.infuraUrl)
+    var contract = new web3.eth.Contract(config.abi, config.contractAddr)
+    console.log(txid)
+    contract.methods.getValidation(txid)
+        .call({from: config.defaultAddr}, (err, res) => {
+          var splited = res.split("#")
+          var a = new Date(Number(splited[0])*1000)
+          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+          var year = a.getFullYear()
+          var month = months[a.getMonth()]
+          var date = a.getDate()
+          var hour = a.getHours()
+          var min = a.getMinutes()
+          var sec = a.getSeconds()
+          var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec
+          var nameOfPage = splited[1]
+          var nameOfSite = splited[2]
+          var accessTime = splited[3]
+          var url = splited[4]
+          this.setState({validation: {time, nameOfpage, nameOfSite, accessTime, url}})
+        })
+        callback()
   }
 
   componentDidMount = () => {
@@ -112,6 +141,9 @@ class Order extends Component {
         this.setState({error: data.error})
       } else {
         this.setState({order: data})
+        this.getValidation(data.payment_id, () => {
+          console.log(this.state.validation)
+        })
       }
     })
   }
@@ -180,10 +212,26 @@ class Order extends Component {
               </Card>
             </Grid>
         </Grid>
-        <Grid container spacing={5}>
+        <Grid container spacing={8}>
             <Grid item xs={12} sm={12}>
               <Card className={classes.innerCard}>
-                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">{this.state.order.delivery_address.street}</Typography>
+                <Typography type="subheading" component="h2" className={classes.productTitle} color="primary">
+                  Validation Report
+                </Typography>
+                <br/>
+                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
+                  {this.state.validation.time}
+                </Typography>
+                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
+                  {this.state.validation.nameOfPage}
+                </Typography>
+                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
+                  {this.state.validation.nameOfSite}
+                </Typography>
+                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
+                  {this.state.validation.accessTime}
+                </Typography>
+                <a href={'http://'+this.state.validation.url}>Link To Resource</a>
               </Card>
             </Grid>
         </Grid>

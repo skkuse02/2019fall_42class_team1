@@ -23,7 +23,7 @@ const create = (req, res) => {
         Product.findOne({_id: order.products[0].product}).exec((err, item)=>{
           web3.eth.accounts.wallet.add(buyer.account_key)  
           contract.from = buyer.account
-          contract.methods.makeTx(seller.account, seller.email, seller.phone, item.price, "None", 100, item.price)
+          contract.methods.makeTx(order._id.toString(), seller.account, seller.email, seller.phone, item.price, "None", 100, item.price)
           .send({from: buyer.account}, (err, txid)=>{
             if(err) {
               console.log(err)
