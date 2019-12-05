@@ -64,9 +64,11 @@ class Valid extends Component {
     array.forEach(function(el){
       contract.methods.getOpenTx(el)
         .call({from: config.defaultAddr}, (err, res) => {
+          console.log(res)
           var txid = res['0']
-          var seller = res['1']
-          var splited = res['2'].split("#")
+          var _status = res['1']
+          var seller = res['2']
+          var splited = res['3'].split("#")
           var a = new Date(Number(splited[0])*1000)
           var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
           var year = a.getFullYear()
@@ -77,13 +79,14 @@ class Valid extends Component {
           var sec = a.getSeconds()
           var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec
        
-          var tmp = {timestamp: time, 
+          var tmp = {timestamp: time,
+                     status: _status,
                      id: txid, 
                      sellerAccount: seller, 
                      sellerId: splited[1], 
                      sellerPhone: splited[2] }
-
-          toReturn.push(tmp)
+          if(Number(tmp.status) == 0) 
+            toReturn.push(tmp)
           if (toReturn.length === array.length) {
           // that was the last push - we have completed
             callback(null, toReturn);

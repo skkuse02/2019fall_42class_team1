@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Card, {CardActions, CardContent} from 'material-ui/Card'
-import Dialog, {DialogContent, DialogContentText, DialogTitle} from 'material-ui/Dialog'
+import Dialog, {DialogContent, DialogContentText, DialogTitle, DialogActions} from 'material-ui/Dialog'
 import Button from 'material-ui/Button'
 import PropTypes from 'prop-types'
 import {withStyles} from 'material-ui/styles'
@@ -71,6 +71,7 @@ class PostValidation extends Component {
       nameOfSite: '',
       accessTime: '',
       url: '',
+      validationId: '',
       error: ''
     }
   }
@@ -80,6 +81,10 @@ class PostValidation extends Component {
   handleChange = name => event => {
     this.setState({[name]: event.target.value})
   }
+  
+  handleClose = () => {
+    setOpen(false);
+  };
 
   clickSubmit = () => {
     const jwt = auth.isAuthenticated()
@@ -97,7 +102,7 @@ class PostValidation extends Component {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        this.setState({error: '', success: true})
+        this.setState({validationId: data, error: '', success: true})
       }
     })
   }
@@ -120,16 +125,21 @@ class PostValidation extends Component {
 
         </CardContent>
         <CardActions>
-          <Button color="primary" variant="raised" onClick={this.clickSubmit} className={classes.submit}>Submit</Button>
+          <Button color="primary" variant="raised" onClick={this.clickSubmit} className={classes.submit}>Report</Button>
         </CardActions>
       </Card>
       <Dialog open={this.state.success} disableBackdropClick={true}>
-        <DialogTitle>New Account</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{"Validation is Reported"}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Successfully Validation Is Reported.
+          <DialogContentText id='alert-dialog-description'>
+            You need to check out the result
           </DialogContentText>
         </DialogContent>
+      <DialogActions>
+        <Button color="primary" autoFocus="autoFocus" variant="raised" href={'https://ropsten.etherscan.io/tx/'+this.state.validationId}>
+          Link
+        </Button>
+      </DialogActions>
       </Dialog>
 
   </div>)

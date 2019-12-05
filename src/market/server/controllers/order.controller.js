@@ -76,11 +76,6 @@ const validationReport = (req, res) => {
   var account = req.profile.account
   console.log("ValidationReport")
   web3.eth.accounts.wallet.add(req.profile.account_key)  
-  console.log("report"+report.txid)
-  console.log("report"+report.nameOfPage)
-  console.log("report"+report.nameOfSite)
-  console.log("report"+report.accessTime)
-  console.log("report"+report.url)
 
   contract.methods.validate(report.txid, report.nameOfPage, report.nameOfSite, report.accessTime, report.url)
     .send({from: account}, (err, txid)=> {

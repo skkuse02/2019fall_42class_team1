@@ -10,7 +10,6 @@ import {Link} from 'react-router-dom'
 import config from './../../config/config'
 import Web3 from 'web3'
 
-
 const styles = theme => ({
   card: {
     textAlign: 'center',
@@ -113,6 +112,9 @@ class Order extends Component {
     console.log(txid)
     contract.methods.getValidation(txid)
       .call({from: config.defaultAddr}, (err, res) => {
+        if(typeof res === 'undefined'){ 
+          return callback() 
+        }
         var splited = res.split("#")
         console.log(splited)
         console.log(splited[1])
@@ -155,8 +157,6 @@ class Order extends Component {
               console.log(this.state.validation)
             })     
           })
-
-        
       }
     })
   }
@@ -233,21 +233,21 @@ class Order extends Component {
                 </Typography>
                 <br/>
                 <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
-                  {this.state.status}
+                  {'Status: '+this.state.status}
                 </Typography>
                 <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
-                  {this.state.validation.time}
+                  {'Reported Time: '+this.state.validation.time}
                 </Typography>
                 <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
-                  {this.state.validation.nameOfPage}
+                  {'Name of Page: '+this.state.validation.nameOfPage}
                 </Typography>
                 <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
-                  {this.state.validation.nameOfSite}
+                  {'Name of Site: '+this.state.validation.nameOfSite}
                 </Typography>
                 <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
-                  {this.state.validation.accessTime}
+                  {'Accessed Time: '+this.state.validation.accessTime}
                 </Typography>
-                <a href={'http://'+this.state.validation.url}>Link To Resource</a>
+                <a href={this.state.validation.url.localeCompare('Null') == 0 ? './' : 'http://'+this.state.validation.url}>Link To Resource</a>
               </Card>
             </Grid>
         </Grid>

@@ -11,7 +11,7 @@ const config = {
   stripe_connect_test_client_id: 'YOUR_stripe_connect_test_client',
   stripe_test_secret_key: 'YOUR_stripe_test_secret_key',
   stripe_test_api_key: 'YOUR_stripe_test_api_key',
-  contractAddr: '0xC8778756DDbDe86BA0b8c0B8D13559A6E0719277',
+  contractAddr: '0x08Be87a4914Cc729Ae7fA5047358c6A9742c9A0D',
   defaultAddr: '0x37F6Bbe96749fEA346F97CEbafc64c71b012E938', 
   abi: [
     {
@@ -254,6 +254,10 @@ const config = {
         {
           "name": "",
           "type": "address"
+        },
+        {
+          "name": "",
+          "type": "uint8"
         },
         {
           "name": "",
