@@ -125,7 +125,8 @@ class Order extends Component {
       msg: '',
       error: '',
       txid: '',
-      result: ''
+      result: '',
+      txStatus: 0
     }
     this.match = match
   }
@@ -172,7 +173,7 @@ class Order extends Component {
         this.setState({error: data.error})
       }
       else {
-        this.setState({result: data, completed: true, msg: 'Transaction Completed'})
+        this.setState({result: data, completed: true, msg: 'Transaction Complete Sent'})
       }
     })
   }
@@ -188,7 +189,7 @@ class Order extends Component {
         this.setState({error: data.error})
       }
       else {
-        this.setState({result: data, completed: true, msg: 'Transaction Terminated'})
+        this.setState({result: data, completed: true, msg: 'Transaction Report Sent'})
       }
     })
   }
@@ -204,7 +205,7 @@ class Order extends Component {
         this.setState({error: data.error})
       }
       else {
-        this.setState({result: data, completed: true, msg: 'Validation Reverted'})
+        this.setState({result: data, completed: true, msg: 'Validation Revert Sent'})
       }
     })
   }
@@ -225,6 +226,10 @@ class Order extends Component {
             this.getValidation(res, () => {
               console.log(this.state.validation)
             })     
+            contract.methods.getStatus(this.state.txid)
+              .call((err, result)=>{
+                this.setState({txStatus: result})
+              })
           })
       }
     })
@@ -247,6 +252,9 @@ class Order extends Component {
         <Typography type="subheading" component="h2" className={classes.subheading}>
             Order Code: <strong>{this.state.order._id}</strong> <br/> Placed on {(new Date(this.state.order.created)).toDateString()}
         </Typography>          
+        <Typography type="subheading" component="h2" className={classes.subheading}>
+            Status: <strong>{this.state.txStatus == 0 ? 'Pending' : this.state.txStatus == 1 ? 'Validation Reported' : this.state.txStatus == 2 ? 'Invalidated Transaction' : 'Completed'}</strong> 
+        </Typography>
         <a href={'http://ropsten.etherscan.io/tx/'+this.state.order.payment_id}><Typography type="subheading" component="h2" className={classes.subheading}><strong>Link To Blockchain Network</strong></Typography></a><br/>
         <Grid container spacing={8}>
             <Grid item xs={7} sm={7}>
