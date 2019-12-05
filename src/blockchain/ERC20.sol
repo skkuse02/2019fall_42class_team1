@@ -1,14 +1,11 @@
 pragma solidity >=0.4.22 <0.6.0;
 import "./IERC20.sol";
-import "./SafeMath.sol";
 
 contract ERC20 is IERC20{
     
-    using SafeMath for uint256;
-    
     string public name = "Used2BlockCoin";
     string public symbol = "UBC";
-    uint8 public decimals = 18;
+    uint8 public decimals = 0;
     
     mapping (address => uint256) private balances;
     mapping (address => mapping (address => uint256)) private allowed;
@@ -50,9 +47,10 @@ contract ERC20 is IERC20{
     }
     
     function _transfer(address _from, address to, uint256 value) private{
+        require(balances[_from] - value < balances[_from] && balances[to] + value > balances[to]);
         
-        balances[_from].sub(value);
-        balances[to].add(value);
+        balances[_from] -= value;
+        balances[to] += value;
         emit Transfer(_from, to, value);
         
     }

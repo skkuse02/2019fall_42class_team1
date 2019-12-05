@@ -13,9 +13,10 @@ contract Transaction {
     address buyer;
     address public validator;
     
+    string orderId; // order object id
     address txid; // transaction id
     uint256 txTime; // the time of transaction date
-    uint8 txStatus; // 0 start | 1 validatd | 2 End 
+    uint8 txStatus; // 0 waiting / 1 Reported / 2 Invalid Transaction / 3 Valid Transaction
     uint256 public fee;
     uint256 public PoS;
     // seller's information
@@ -37,11 +38,12 @@ contract Transaction {
     }
     
     
-    constructor (address buyer_, address seller_, string memory sellerEmail_, string memory sellerPhone_, 
+    constructor (string memory orderId_, address buyer_, address seller_, string memory sellerEmail_, string memory sellerPhone_, 
                 uint256 amount_, string memory message_, address bank_, uint256 fee_, uint256 PoS_) public {
         
         Bank = ERC20(bank_);
         
+        orderId = orderId_;
         buyer = buyer_;
         seller = seller_;
         sellerEmail = sellerEmail_;
@@ -86,12 +88,24 @@ contract Transaction {
         return (seller, ret);
     }
     
+    function getOrderId() public view returns(string memory){
+        return orderId;
+    }
+    
     function getBuyer() public view returns (address){
         return buyer;
     }
     
     function getSeller() public view returns (address){
         return seller;
+    }
+    
+    function getSellerEmail() public view returns(string memory){
+        return sellerEmail;
+    }
+    
+    function getSellerPhone() public view returns(string memory){
+        return sellerPhone;
     }
     
     function getValidator() public view returns (address){
