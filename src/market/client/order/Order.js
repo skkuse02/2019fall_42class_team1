@@ -103,34 +103,38 @@ class Order extends Component {
     super()
     this.state = {
       order: {products:[], delivery_address:{}},
-      validation: {time: '', nameOfPage: '', nameOfSite: '', accessTime: '', url: ''}
+      validation: {time: '', nameOfPage: '', nameOfSite: '', accessTime: '', url: ''},
+      status: 'Waiting'
     }
     this.match = match
   }
 
-  getValidation = (txid, callback) => {
-    var web3 =  new Web3(config.infuraUrl)
-    var contract = new web3.eth.Contract(config.abi, config.contractAddr)
+  getValidation = (web3, contract, txid, callback) => {
     console.log(txid)
     contract.methods.getValidation(txid)
-        .call({from: config.defaultAddr}, (err, res) => {
-          var splited = res.split("#")
-          var a = new Date(Number(splited[0])*1000)
-          var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-          var year = a.getFullYear()
-          var month = months[a.getMonth()]
-          var date = a.getDate()
-          var hour = a.getHours()
-          var min = a.getMinutes()
-          var sec = a.getSeconds()
-          var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec
-          var nameOfPage = splited[1]
-          var nameOfSite = splited[2]
-          var accessTime = splited[3]
-          var url = splited[4]
-          this.setState({validation: {time, nameOfpage, nameOfSite, accessTime, url}})
-        })
-        callback()
+      .call({from: config.defaultAddr}, (err, res) => {
+        var splited = res.split("#")
+        console.log(splited)
+        console.log(splited[1])
+        console.log(typeof splited[1])
+        var a = new Date(Number(splited[0])*1000)
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        var year = a.getFullYear()
+        var month = months[a.getMonth()]
+        var date = a.getDate()
+        var hour = a.getHours()
+        var min = a.getMinutes()
+        var sec = a.getSeconds()
+        const time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec
+        const nameOfPage = (splited[1].localeCompare('') != 0 ? splited[1] : 'Null')
+        const nameOfSite = (splited[2].localeCompare('') != 0 ? splited[2] : 'Null')
+        const accessTime = (splited[3].localeCompare('') != 0 ? splited[3] : 'Null')
+        const url = (splited[4].localeCompare("\n\n") != 0 ? splited[4] : 'Null')
+        const _state = (splited[1].localeCompare('') != 0 ? 'Reported' : 'Waiting')
+        console.log(nameOfPage)
+        this.setState({status: _state, validation: {time, nameOfPage, nameOfSite, accessTime, url}})
+      })
+      callback()
   }
 
   componentDidMount = () => {
@@ -141,9 +145,18 @@ class Order extends Component {
         this.setState({error: data.error})
       } else {
         this.setState({order: data})
-        this.getValidation(data.payment_id, () => {
-          console.log(this.state.validation)
-        })
+        var web3 =  new Web3(config.infuraUrl)
+        var contract = new web3.eth.Contract(config.abi, config.contractAddr)
+
+        contract.methods.getTxAddress(this.state.order._id.toString())
+          .call((err, res)=>{
+            console.log(res)
+            this.getValidation(web3, contract, res, () => {
+              console.log(this.state.validation)
+            })     
+          })
+
+        
       }
     })
   }
@@ -219,6 +232,9 @@ class Order extends Component {
                   Validation Report
                 </Typography>
                 <br/>
+                <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
+                  {this.state.status}
+                </Typography>
                 <Typography type="subheading" component="h3" className={classes.itemShop} color="primary">
                   {this.state.validation.time}
                 </Typography>

@@ -76,8 +76,6 @@ const validationReport = (req, res) => {
   var account = req.profile.account
   console.log("ValidationReport")
   web3.eth.accounts.wallet.add(req.profile.account_key)  
-  console.log("Priv key"+req.profile.account_key)
-  console.log("Pub key"+req.profile.account)
   console.log("report"+report.txid)
   console.log("report"+report.nameOfPage)
   console.log("report"+report.nameOfSite)
