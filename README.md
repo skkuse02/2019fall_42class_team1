@@ -24,9 +24,9 @@ Second Hand Market with Blockchain System
 
 ## Sources
 ### HowToRun
-Node (>= 8.11.1)
-NPM (>= 5.8.0)
-MongoDB (>= 3.6.3 )
+Node (>= 8.11.1) 
+NPM (>= 5.8.0) 
+MongoDB (>= 3.6.3 ) 
 
 ### Frontend
 See [README for frontend](src/Frontend/README.md)
