@@ -78,7 +78,7 @@ class Product extends Component {
         listRelated({
           productId: data._id}).then((data) => {
           if (data.error) {
-            console.log(data.error)
+            this.setState({error: data.error})
           } else {
             this.setState({suggestions: data})
           }

@@ -9,7 +9,9 @@ import {remove} from './api-product.js'
 
 class DeleteProduct extends Component {
   state = {
-    open: false
+    open: false,
+    errorState: false,
+    error: ''
   }
   clickButton = () => {
     this.setState({open: true})
@@ -22,6 +24,7 @@ class DeleteProduct extends Component {
     }, {t: jwt.token}).then((data) => {
       if (data.error) {
         console.log(data.error)
+        this.setState({error: data.error, errorState: true})
       } else {
         this.setState({open: false}, () => {
           this.props.onRemove(this.props.product)
@@ -31,6 +34,7 @@ class DeleteProduct extends Component {
   }
   handleRequestClose = () => {
     this.setState({open: false})
+    this.setState({errorState: false})
   }
   render() {
     return (<span>
@@ -53,6 +57,20 @@ class DeleteProduct extends Component {
           </Button>
         </DialogActions>
       </Dialog>
+      <Dialog open={this.state.errorState} onClose={this.handleRequestClose}>
+        <DialogTitle>{"Error Occured"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {this.state.error}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleRequestClose} color="primary">
+            Close 
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </span>)
   }
 }

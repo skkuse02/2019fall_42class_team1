@@ -1,4 +1,5 @@
 import Product from '../models/product.model'
+import {Order, CartItem} from '../models/order.model'
 import _ from 'lodash'
 import errorHandler from './../helpers/dbErrorHandler'
 import formidable from 'formidable'
@@ -86,14 +87,33 @@ const update = (req, res, next) => {
 }
 
 const remove = (req, res, next) => {
+
+  console.log("remove product")
   let product = req.product
-  product.remove((err, deletedProduct) => {
-    if (err) {
+  Order.find({'products.product': product._id}).exec((err, data) => {
+    if(err) {
+      console.log(err)
       return res.status(400).json({
         error: errorHandler.getErrorMessage(err)
+      })   
+    }
+    console.log(data.length)
+    if(data.length > 0){
+      return res.status(400).json({
+        error: "There is at least one linked order"
       })
     }
-    res.json(deletedProduct)
+    else{
+      product.remove((err, deletedProduct) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+          })
+        }
+        console.log("Deleted")
+        res.json(deletedProduct)
+      })
+    }
   })
 }
 
@@ -115,6 +135,7 @@ const listLatest = (req, res) => {
         error: errorHandler.getErrorMessage(err)
       })
     }
+    console.log(products)
     res.json(products)
   })
 }

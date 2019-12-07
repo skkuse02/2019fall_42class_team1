@@ -51,6 +51,7 @@ class PlaceOrder extends Component {
       }, this.props.checkoutDetails)
       .then((data)=> {
         if (data.error) {
+          console.log(data)
           console.log(data.error)
           this.setState({error: data.error})
         } 

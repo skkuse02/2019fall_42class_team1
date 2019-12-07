@@ -253,7 +253,7 @@ class Order extends Component {
             Order Code: <strong>{this.state.order._id}</strong> <br/> Placed on {(new Date(this.state.order.created)).toDateString()}
         </Typography>          
         <Typography type="subheading" component="h2" className={classes.subheading}>
-            Status: <strong>{this.state.txStatus == 0 ? 'Pending' : this.state.txStatus == 1 ? 'Validation Reported' : this.state.txStatus == 2 ? 'Invalidated Transaction' : 'Completed'}</strong> 
+            Status: <strong>{this.state.txStatus == 3 ? 'Completed' : this.state.txStatus == 1 ? 'Validation Reported' : this.state.txStatus == 2 ? 'Invalidated Transaction' : 'Pending'}</strong> 
         </Typography>
         <a href={'http://ropsten.etherscan.io/tx/'+this.state.order.payment_id}><Typography type="subheading" component="h2" className={classes.subheading}><strong>Link To Blockchain Network</strong></Typography></a><br/>
         <Grid container spacing={8}>

@@ -59,8 +59,8 @@ class Valid extends Component {
   findOpenTx = (array, callback) => {
     var web3 =  new Web3(config.infuraUrl)
     var contract = new web3.eth.Contract(config.abi, config.contractAddr)
-    var toReturn = [];
-
+    var toReturn = []
+    var count = 0
     array.forEach(function(el){
       contract.methods.getOpenTx(el)
         .call({from: config.defaultAddr}, (err, res) => {
@@ -87,7 +87,8 @@ class Valid extends Component {
                      sellerPhone: splited[2] }
           if(Number(tmp.status) == 0) 
             toReturn.push(tmp)
-          if (toReturn.length === array.length) {
+          count = count + 1
+          if (count === array.length) {
           // that was the last push - we have completed
             callback(null, toReturn);
           }
