@@ -28,6 +28,11 @@ Node (>= 8.11.1) <br />
 NPM (>= 5.8.0) <br />
 MongoDB (>= 3.6.3 ) <br />
 
+```
+npm run start (Starts the server)
+npm run development (Build for development and run server with nodemon)
+```
+
 ### Frontend
 See [README for frontend](src/Frontend/README.md)
 
