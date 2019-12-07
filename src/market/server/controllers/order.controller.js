@@ -19,6 +19,12 @@ const create = (req, res) => {
   const order = new Order(req.body.order)
   User.findOne({_id: req.profile}).exec((err, buyer)=>{
     Shop.findOne({_id: order.products[0].shop}).exec((err, shop)=>{
+      console.log(req.profile._id)
+      console.log(shop.owner)
+      if(req.profile._id.equals(shop.owner)){
+        console.log("Tried to buy one's own item")
+        return res.status(400).json({error: "Do not try to buy yours"})
+      }
       User.findOne({_id: shop.owner}).exec((err, seller)=>{
         Product.findOne({_id: order.products[0].product}).exec((err, item)=>{
           web3.eth.accounts.wallet.add(buyer.account_key)  
@@ -27,13 +33,13 @@ const create = (req, res) => {
           .send({from: buyer.account}, (err, txid)=>{
             if(err) {
               console.log(err)
-              return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+              return res.status(400).json({error: "Transaction failed"})
             }
             order.payment_id = txid
             console.log(order)
             order.save((err, result)=>{
               if(err) 
-                return res.status(400).json({error: errorHandler.getErrorMessage(err)})
+                return res.status(400).json({error: "Saving Order failed"})
 
               res.status(200).json(result)
             })
