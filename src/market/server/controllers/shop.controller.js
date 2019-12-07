@@ -1,4 +1,6 @@
 import Shop from '../models/shop.model'
+import Order from '../models/order.model'
+import Product from '../models/product.model'
 import _ from 'lodash'
 import errorHandler from './../helpers/dbErrorHandler'
 import formidable from 'formidable'
@@ -118,13 +120,26 @@ const isOwner = (req, res, next) => {
 
 const remove = (req, res, next) => {
   let shop = req.shop
-  shop.remove((err, deletedShop) => {
-    if (err) {
+  Product.find({'shop': shop._id}).exec((err, data) => {
+    if(err) {
+      console.log(err)
       return res.status(400).json({
         error: errorHandler.getErrorMessage(err)
       })
     }
-    res.json(deletedShop)
+    if(data.length > 0){
+      return res.status(400).json({
+        error: "There is at least one product. You need to delete them"
+      })
+    }
+    shop.remove((err, deletedShop) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler.getErrorMessage(err)
+        })
+      }
+      res.json(deletedShop)
+    })
   })
 }
 

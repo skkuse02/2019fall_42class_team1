@@ -9,7 +9,9 @@ import {remove} from './api-shop.js'
 
 class DeleteShop extends Component {
   state = {
-    open: false
+    open: false,
+    error: '',
+    errorState: false
   }
   clickButton = () => {
     this.setState({open: true})
@@ -20,7 +22,9 @@ class DeleteShop extends Component {
       shopId: this.props.shop._id
     }, {t: jwt.token}).then((data) => {
       if (data.error) {
+        console.log(data)
         console.log(data.error)
+        this.setState({errorState: true, error: data.error})
       } else {
         this.setState({open: false}, () => {
           this.props.onRemove(this.props.shop)
@@ -30,6 +34,7 @@ class DeleteShop extends Component {
   }
   handleRequestClose = () => {
     this.setState({open: false})
+    this.setState({errorState: false})
   }
   render() {
     return (<span>
@@ -50,6 +55,19 @@ class DeleteShop extends Component {
           </Button>
           <Button onClick={this.deleteShop} color="secondary" autoFocus="autoFocus">
             Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={this.state.errorState} onClose={this.handleRequestClose}>
+        <DialogTitle>{"Error Occured"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {this.state.error}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleRequestClose} color="primary">
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

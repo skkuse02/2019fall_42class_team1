@@ -88,7 +88,6 @@ const update = (req, res, next) => {
 
 const remove = (req, res, next) => {
 
-  console.log("remove product")
   let product = req.product
   Order.find({'products.product': product._id}).exec((err, data) => {
     if(err) {
@@ -97,7 +96,6 @@ const remove = (req, res, next) => {
         error: errorHandler.getErrorMessage(err)
       })   
     }
-    console.log(data.length)
     if(data.length > 0){
       return res.status(400).json({
         error: "There is at least one linked order"
@@ -110,7 +108,6 @@ const remove = (req, res, next) => {
             error: errorHandler.getErrorMessage(err)
           })
         }
-        console.log("Deleted")
         res.json(deletedProduct)
       })
     }
