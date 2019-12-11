@@ -23,7 +23,7 @@ Second Hand Market with Blockchain System
 [System design document (PDF)](docs/Design_Specification_V1.1.pdf)
 
 ### Test Plan
-[Test plan document (PDF)](docs/test_documentation.pdf)
+[Test plan document (PDF)](docs/test_documentationV1.1.pdf)
 
 
 ## Sources
