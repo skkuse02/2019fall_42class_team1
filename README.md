@@ -17,7 +17,7 @@ Second Hand Market with Blockchain System
 [Project proposal (PowerPoint)](docs/Proposal.pptx)
 
 ### Requirements
-[Requirement specification document (PDF)](docs/requirement.pdf)
+[Requirement specification document (PDF)](docs/requirement_V1.1.pdf)
 
 ### System Design
 [System design document (PDF)](docs/Design_Specification_V1.1.pdf)
