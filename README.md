@@ -20,7 +20,11 @@ Second Hand Market with Blockchain System
 [Requirement specification document (PDF)](docs/requirement.pdf)
 
 ### System Design
-[System design document (PDF)](docs/Design_Specification.pdf)
+[System design document (PDF)](docs/Design_Specification_V1.1.pdf)
+
+### Test Plan
+[Test plan document (PDF)](docs/test_documentation.pdf)
+
 
 ## Sources
 ### HowToRun
