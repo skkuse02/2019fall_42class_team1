@@ -5,9 +5,9 @@ Second Hand Market with Blockchain System
 ![Image of Used2Block](https://github.com/skkuse02/2019fall_42class_team1/blob/master/docs/images/logo.png)
 
 ## References
-syntax: [Full-Stak-React](https://github.com/PacktPublishing/Full-Stack-React-Projects)
-syntax: [Cryptokitties](https://github.com/cryptocopycats/awesome-cryptokitties)
-syntax: [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts)
+[Full-Stak-React](https://github.com/PacktPublishing/Full-Stack-React-Projects)<br />
+[Cryptokitties](https://github.com/cryptocopycats/awesome-cryptokitties)<br />
+[OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts)<br />
 
 ### HowToRun
 Node (>= 8.11.1) <br />
