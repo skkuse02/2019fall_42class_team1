@@ -11,7 +11,7 @@ const config = {
   stripe_connect_test_client_id: 'YOUR_stripe_connect_test_client',
   stripe_test_secret_key: 'YOUR_stripe_test_secret_key',
   stripe_test_api_key: 'YOUR_stripe_test_api_key',
-  contractAddr: '0xb4BF1f517C5e5c5Ea75418C4C2388E9d7435F98E',
+  contractAddr: '0xd7D5167F8C356a1217F1019942F18d9C75572a02',
   defaultAddr: '0x37F6Bbe96749fEA346F97CEbafc64c71b012E938', 
   abi: [
     {
@@ -343,20 +343,6 @@ const config = {
       "constant": false,
       "inputs": [
         {
-          "name": "target",
-          "type": "address"
-        }
-      ],
-      "name": "giveToken",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
           "name": "newOwner",
           "type": "address"
         }
@@ -409,7 +395,7 @@ const config = {
       "name": "OwnerLog",
       "type": "event"
     }
-  ]
+  ] 
 }
 
 export default config

@@ -9,7 +9,7 @@ import Web3 from 'web3'
 
 const web3 = new Web3(config.infuraUrl)
 const contract = new web3.eth.Contract(config.abi, config.contractAddr, {
-    gasPrice: '10000000000',
+    gasPrice: '15990000000',
     gas: 3000000
 })
 const create = (req, res) => {
