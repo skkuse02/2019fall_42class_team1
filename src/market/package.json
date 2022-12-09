@@ -46,7 +46,7 @@
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
     "ethereumjs-tx": "^2.1.1",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-jwt": "^5.3.1",
     "formidable": "^1.2.1",
     "helmet": "^3.12.0",
